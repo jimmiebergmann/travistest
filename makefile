@@ -19,11 +19,11 @@ all: server test
 
 server: $(SERVER_OBJ_FILES)
 	mkdir -p $(BIN_DIR)
-	$(CXX) -o $(BIN_DIR)/server $^
+	$(CXX) -o $(BIN_DIR)/server $^ -lgcov --coverage
 
 $(SERVER_OBJ_DIR)/%.o: $(SERVER_SRC_DIR)/%.cpp
 	mkdir -p $(SERVER_OBJ_DIR)
-	$(CXX) -c -I$(SERVER_INC_DIR) -ftest-coverage -o $@ $<
+	$(CXX) -c -fprofile-arcs -ftest-coverage -I$(SERVER_INC_DIR) -o $@ $<
 
 test: test_server
 
@@ -31,11 +31,11 @@ test_server: server test_server_build
 
 test_server_build: $(TEST_OBJ_FILES)
 	mkdir -p $(BIN_DIR)
-	$(CXX) -o $(BIN_DIR)/server_tests $^ $(TEST_SERVER_OBJS)
+	$(CXX) -o -fprofile-arcs -ftest-coverage $(BIN_DIR)/server_tests $^ $(TEST_SERVER_OBJS)
     
 $(TEST_OBJ_DIR)/%.o: $(TEST_SRC_DIR)/%.cpp
 	mkdir -p $(TEST_OBJ_DIR)
-	$(CXX) -c -I$(SERVER_INC_DIR) -ftest-coverage -o $@ $<
+	$(CXX) -c -I$(SERVER_INC_DIR) --coverage -o $@ $<
     
 .PHONY: clean test
 
