@@ -13,7 +13,9 @@ before_install:
   - pip install --user cpp-coveralls
 
 script:
-  - make
+  - make server
+  - make test
+  - ./bin/server_tests
 
 after_success:
   - coveralls --root .. -E ".*external.*" -E ".*test/.*.cpp.*"
