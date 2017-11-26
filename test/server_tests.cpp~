@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv)
 {
-    Account a(10);
+    Accout a(10);
     if(a.GetBalance() != 10)
     {
         std::cout << "Balance is not 10." << std::endl;

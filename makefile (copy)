@@ -11,9 +11,6 @@ TEST_SRC_DIR := test
 TEST_OBJ_DIR := $(OBJ_DIR)/test
 TEST_SRC_FILES := $(wildcard $(TEST_SRC_DIR)/*.cpp)
 TEST_OBJ_FILES := $(patsubst $(TEST_SRC_DIR)/%.cpp,$(TEST_OBJ_DIR)/%.o,$(TEST_SRC_FILES))
-
-TEST_SERVER_OBJS := $(filter-out $(SERVER_OBJ_DIR)/Main.o, $(SERVER_OBJ_FILES))
-
 #TEST_OBJ_FILES := $(filter-out obj/server/Main.o,$(TEST_OBJ_FILES))
 all: server test
 
@@ -23,15 +20,15 @@ server: $(SERVER_OBJ_FILES)
 
 $(SERVER_OBJ_DIR)/%.o: $(SERVER_SRC_DIR)/%.cpp
 	mkdir -p $(SERVER_OBJ_DIR)
-	$(CXX) -c -I$(SERVER_INC_DIR) -ftest-coverage -o $@ $<
+	$(CXX) -c -I$(SERVER_INC_DIR) -o $@ $<
 
-test: server test_build
-
-test_build: $(TEST_OBJ_FILES)
+test: $(TEST_OBJ_FILES)
+	@echo 1
 	mkdir -p $(BIN_DIR)
-	$(CXX) -o $(BIN_DIR)/server_test $^ $(TEST_SERVER_OBJS)
+	$(CXX) -o $(BIN_DIR)/server_test $^
     
 $(TEST_OBJ_DIR)/%.o: $(TEST_SRC_DIR)/%.cpp
+	@echo 2
 	mkdir -p $(TEST_OBJ_DIR)
 	$(CXX) -c -I$(SERVER_INC_DIR) -ftest-coverage -o $@ $<
     
