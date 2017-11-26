@@ -11,10 +11,9 @@ TEST_SRC_DIR := test
 TEST_OBJ_DIR := $(OBJ_DIR)/test
 TEST_SRC_FILES := $(wildcard $(TEST_SRC_DIR)/*.cpp)
 TEST_OBJ_FILES := $(patsubst $(TEST_SRC_DIR)/%.cpp,$(TEST_OBJ_DIR)/%.o,$(TEST_SRC_FILES))
-
 TEST_SERVER_OBJS := $(filter-out $(SERVER_OBJ_DIR)/Main.o, $(SERVER_OBJ_FILES))
 
-#TEST_OBJ_FILES := $(filter-out obj/server/Main.o,$(TEST_OBJ_FILES))
+
 all: server test
 
 server: $(SERVER_OBJ_FILES)
@@ -29,7 +28,7 @@ test: server test_build
 
 test_build: $(TEST_OBJ_FILES)
 	mkdir -p $(BIN_DIR)
-	$(CXX) -o $(BIN_DIR)/server_test $^ $(TEST_SERVER_OBJS)
+	$(CXX) -o $(BIN_DIR)/server_tests $^ $(TEST_SERVER_OBJS)
     
 $(TEST_OBJ_DIR)/%.o: $(TEST_SRC_DIR)/%.cpp
 	mkdir -p $(TEST_OBJ_DIR)
