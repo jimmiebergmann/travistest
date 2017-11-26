@@ -21,7 +21,7 @@ $(SERVER_OBJ_DIR)/%.o: $(SERVER_SRC_DIR)/%.cpp
 	$(CXX) -c -I$(SERVER_INC_DIR) -o $@ $<
 
 test: $(TEST_OBJ_FILES)
-    mkdir -p $(BIN_DIR)
+	mkdir -p $(BIN_DIR)
 	$(CXX) -o $(BIN_DIR)/server_test $^
     
 $(TEST_OBJ_DIR)/%.o: $(TEST_SRC_DIR)/%.cpp
