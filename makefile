@@ -16,6 +16,7 @@ TEST_SERVER_OBJS := $(filter-out $(SERVER_OBJ_DIR)/Main.o, $(SERVER_OBJ_FILES))
 
 all: server test
 
+
 server: $(SERVER_OBJ_FILES)
 	mkdir -p $(BIN_DIR)
 	$(CXX) -o $(BIN_DIR)/server $^
@@ -24,9 +25,11 @@ $(SERVER_OBJ_DIR)/%.o: $(SERVER_SRC_DIR)/%.cpp
 	mkdir -p $(SERVER_OBJ_DIR)
 	$(CXX) -c -I$(SERVER_INC_DIR) -ftest-coverage -o $@ $<
 
-test: server test_build
+test: test_server
 
-test_build: $(TEST_OBJ_FILES)
+test_server: server test_server_build
+
+test_server_build: $(TEST_OBJ_FILES)
 	mkdir -p $(BIN_DIR)
 	$(CXX) -o $(BIN_DIR)/server_tests $^ $(TEST_SERVER_OBJS)
     
