@@ -1,7 +1,7 @@
 BIN_DIR := bin
 OBJ_DIR := obj
 SERVER_SRC_DIR := source/server
-SERVER_INC_DIR := source/server
+SERVER_INC_DIR := include/server
 SERVER_OBJ_DIR := $(OBJ_DIR)/server
 SERVER_SRC_FILES := $(wildcard $(SERVER_SRC_DIR)/*.cpp)
 SERVER_OBJ_FILES := $(patsubst $(SERVER_SRC_DIR)/%.cpp,$(SERVER_OBJ_DIR)/%.o,$(SERVER_SRC_FILES))
