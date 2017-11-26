@@ -8,5 +8,7 @@ int main()
     std::cout << "Set balance to 50" << std::endl;
     a.SetBalance(50);
     std::cout << "Account balance: " << a.GetBalance() << std::endl;
+
+    Account b;
     return 0;
 }

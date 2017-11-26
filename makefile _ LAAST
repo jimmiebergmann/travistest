@@ -1,0 +1,78 @@
+BIN_DIR := bin
+OBJ_DIR := obj
+
+SERVER_CPP_DIR := source/server
+SERVER_INC_DIR := include/server
+#SERVER_OBJ_DIR := $(OBJ_DIR)/server
+#SERVER_CPP_FILES := $(wildcard $(SERVER_CPP_DIR)/*.cpp)
+#SERVER_OBJ_FILES := $(patsubst $(SERVER_CPP_DIR)/%.cpp,$(SERVER_OBJ_DIR)/%.o,$(SERVER_CPP_FILES))
+
+SERVER_CPP =
+SERVER_CPP	+= source/server/Account.cpp
+TEST_SERVER_CPP := $(SERVER_CPP)
+SERVER_CPP	+= source/server/Main.cpp
+TEST_SERVER_CPP += test/server/server_tests.cpp
+
+SERVER_OBJ 	:= $(SERVER_CPP:.cpp=.o)
+TEST_SERVER_OBJ := $(TEST_SERVER_CPP:.cpp=.o)
+TEST_SERVER_OBJ_DIR := $(OBJ_DIR)/test/server
+
+#TEST_SERVER_CPP_DIR := test/server
+#TEST_SERVER_OBJ_DIR := $(OBJ_DIR)/test/server
+
+#TEST_SERVER_CPP_FILES := $(wildcard $(TEST_SERVER_CPP_DIR)/*.cpp) $(wildcard $(SERVER_CPP_DIR)/*.cpp)
+#TEST_SERVER_CPP_FILES := $(filter-out $(SERVER_CPP_DIR)/Main.cpp, $(TEST_SERVER_CPP_FILES))
+
+#TEST_SERVER_OBJ_FILES = $(TEST_SERVER_CPP_FILES:.cpp=.o)
+#TEST_SERVER_OBJ_FILES := $(patsubst $(TEST_SERVER_CPP_DIR)/%.cpp,$(TEST_SERVER_OBJ_DIR)/%.o,$(TEST_SERVER_CPP_FILES))
+
+
+#TEST_SERVER_OBJ_FILES := $(TEST_SERVER_CPP_FILES:.cpp=.o)
+#TEST_SERVER_OBJ_FILES := $(patsubst $(TEST_CPP_DIR)/%.cpp,$(TEST_OBJ_DIR)/%.o,$(TEST_SERVER_CPP_FILES))
+#TEST_SERVER_OBJ_FILES := $(filter-out $(SERVER_OBJ_DIR)/Main.o, $(TEST_SERVER_OBJ_FILES))
+
+
+#all: server test
+
+
+server: $(SERVER_OBJ_FILES)
+	mkdir -p $(BIN_DIR)
+	$(CXX) -o $(BIN_DIR)/server $^ -lgcov --coverage
+
+$(SERVER_OBJ_DIR)/%.o: $(SERVER_CPP_DIR)/%.cpp
+	mkdir -p $(SERVER_OBJ_DIR)
+	$(CXX) -c -fprofile-arcs -ftest-coverage -I$(SERVER_INC_DIR) -o $@ $<
+
+foo:
+	@echo $(SERVER_CPP)
+	@echo $(SERVER_OBJ)
+	@echo $(TEST_SERVER_CPP)
+	@echo $(TEST_SERVER_OBJ)
+	@echo $(TEST_SERVER_CPP_DIR)
+	@echo $(TEST_SERVER_OBJ_DIR)
+	@echo $(TEST_SERVER_CPP_FILES)
+	@echo $(TEST_SERVER_OBJ_FILES)
+
+test: test_server
+	@echo 3
+
+test_server: $(TEST_SERVER_OBJ)
+	#mkdir -p $(BIN_DIR)
+	@echo TESSSSSSSSSSSSSST
+#	$(CXX) -I$(SERVER_INC_DIR) -o $(BIN_DIR)/server_tests $^ -lgcov --coverage
+
+#$(TEST_SERVER_OBJ_DIR)/%.o: %.cpp
+#	#mkdir -p $(TEST_SERVER_OBJ_DIR)
+#	@echo TESSSSSSSSSSSSSST	
+#	$(CXX) -c -fprofile-arcs -ftest-coverage -I$(SERVER_INC_DIR) -o $@ $<
+
+#$(TEST_SERVER_OBJ_DIR)/%.o: $(TEST_SERVER_CPP_DIR)/%.cpp
+#	mkdir -p $(TEST_SERVER_OBJ_DIR)
+#	@echo $<
+#	$(CXX) -c -fprofile-arcs -ftest-coverage -I$(SERVER_INC_DIR) -o $@ $<
+    
+.PHONY: clean test test_server
+
+clean:
+	$(RM) -rf $(OBJ_DIR)
+	$(RM) -rf $(BIN_DIR)

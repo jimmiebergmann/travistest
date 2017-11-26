@@ -1,44 +1,22 @@
-BIN_DIR := bin
-OBJ_DIR := obj
+BIN_DIR 		:= bin
+OBJ_DIR 		:= bin
+SERVER_HEADER_DIR	:= include/server
 
-SERVER_SRC_DIR := source/server
-SERVER_INC_DIR := include/server
-SERVER_OBJ_DIR := $(OBJ_DIR)/server
-SERVER_SRC_FILES := $(wildcard $(SERVER_SRC_DIR)/*.cpp)
-SERVER_OBJ_FILES := $(patsubst $(SERVER_SRC_DIR)/%.cpp,$(SERVER_OBJ_DIR)/%.o,$(SERVER_SRC_FILES))
+server: server_lib server_bin
 
-TEST_SRC_DIR := test
-TEST_OBJ_DIR := $(OBJ_DIR)/test
-TEST_SRC_FILES := $(wildcard $(TEST_SRC_DIR)/*.cpp)
-TEST_OBJ_FILES := $(patsubst $(TEST_SRC_DIR)/%.cpp,$(TEST_OBJ_DIR)/%.o,$(TEST_SRC_FILES))
-TEST_SERVER_OBJS := $(filter-out $(SERVER_OBJ_DIR)/Main.o, $(SERVER_OBJ_FILES))
+server_lib:
+	@cd source/server; make
 
-
-all: server test
-
-
-server: $(SERVER_OBJ_FILES)
+server_bin: obj/server.o
 	mkdir -p $(BIN_DIR)
-	$(CXX) -o $(BIN_DIR)/server $^ -lgcov --coverage
+	@echo SERVER_BIN
+	export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:./lib/"
+	$(CXX) -o $(BIN_DIR)/server $^ -lgcov --coverage -L./lib -lserver
 
-$(SERVER_OBJ_DIR)/%.o: $(SERVER_SRC_DIR)/%.cpp
-	mkdir -p $(SERVER_OBJ_DIR)
-	$(CXX) -c -fprofile-arcs -ftest-coverage -I$(SERVER_INC_DIR) -o $@ $<
+obj/server.o:
+	mkdir -p $(OBJ_DIR)
+	@echo PARAM 1: $@
+	@echo PARAM 2: $<
+	$(CXX) -c -fprofile-arcs -ftest-coverage -I$(SERVER_HEADER_DIR) source/Server.cpp -o obj/server.o
 
-test: test_server
-
-test_server: server test_server_build
-
-test_server_build: $(TEST_OBJ_FILES)
-	mkdir -p $(BIN_DIR)
-	$(CXX) -o $(BIN_DIR)/server_tests $^ $(TEST_SERVER_OBJS) -lgcov --coverage
-    
-$(TEST_OBJ_DIR)/%.o: $(TEST_SRC_DIR)/%.cpp
-	mkdir -p $(TEST_OBJ_DIR)
-	$(CXX) -c -fprofile-arcs -ftest-coverage -I$(SERVER_INC_DIR) --coverage -o $@ $<
-    
-.PHONY: clean test
-
-clean:
-	$(RM) -rf $(OBJ_DIR)
-	$(RM) -rf $(BIN_DIR)
+#-I$(SERVER_INC_DIR)

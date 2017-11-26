@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1511716761 source:/home/jimmie/github/travistest/source/Server.cpp
+	<Account.hpp>
+	<iostream>
+
+1511716761 /home/jimmie/github/travistest/include/server/Account.hpp
+

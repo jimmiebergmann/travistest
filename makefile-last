@@ -9,7 +9,7 @@ SERVER_OBJ_FILES := $(patsubst $(SERVER_SRC_DIR)/%.cpp,$(SERVER_OBJ_DIR)/%.o,$(S
 
 TEST_SRC_DIR := test
 TEST_OBJ_DIR := $(OBJ_DIR)/test
-TEST_SRC_FILES := $(wildcard $(TEST_SRC_DIR)/*.cpp)
+TEST_SRC_FILES := $(wildcard $(TEST_SRC_DIR)/*.cpp) $(wildcard $(SERVER_SRC_DIR)/*.cpp)
 TEST_OBJ_FILES := $(patsubst $(TEST_SRC_DIR)/%.cpp,$(TEST_OBJ_DIR)/%.o,$(TEST_SRC_FILES))
 TEST_SERVER_OBJS := $(filter-out $(SERVER_OBJ_DIR)/Main.o, $(SERVER_OBJ_FILES))
 
@@ -24,6 +24,9 @@ server: $(SERVER_OBJ_FILES)
 $(SERVER_OBJ_DIR)/%.o: $(SERVER_SRC_DIR)/%.cpp
 	mkdir -p $(SERVER_OBJ_DIR)
 	$(CXX) -c -fprofile-arcs -ftest-coverage -I$(SERVER_INC_DIR) -o $@ $<
+
+foo:
+	@echo $(TEST_SRC_FILES)
 
 test: test_server
 

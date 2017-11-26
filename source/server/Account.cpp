@@ -10,6 +10,7 @@ Account::Account(const int bal) :
 
 int Account::GetBalance() const
 {
+
     return balance;
 }
 
