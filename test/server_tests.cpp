@@ -8,7 +8,7 @@ int main(int argc, char** argv)
     if(a.GetBalance() != 10)
     {
         std::cout << "Balance is not 10." << std::endl;
-        return 0;
+        return 1;
     }
     
     std::cout << "Test succeeded!" << std::endl;
