@@ -1,7 +1,8 @@
 sudo: false
 
-language:
-  - cpp
+language: cpp
+compiler:
+  - gcc
 
 addons:
   apt:

@@ -15,7 +15,7 @@ server: $(SERVER_OBJ_FILES)
 
 $(SERVER_OBJ_DIR)/%.o: $(SERVER_SRC_DIR)/%.cpp
 	mkdir -p $(SERVER_OBJ_DIR)
-	$(CXX) -c -I$(SERVER_INC_DIR) -o $@ $<
+	$(CXX) -c -ftest-coverage -I$(SERVER_INC_DIR) -o $@ $<
 
 .PHONY: clean
 
