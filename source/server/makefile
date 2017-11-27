@@ -2,11 +2,10 @@ LIB_DIR	:= ../../lib
 OBJ_DIR := ../../obj/server
 CPP_DIR := ../../source/server
 
-CCFLAGS := -fprofile-arcs -ftest-coverage
+CCFLAGS := 
 CCPATHS	:= ../../include/server
 DEP_INC := $(addprefix -I, $(CCPATHS))
 
-.PRECIOUS: %.o
 
 all: $(LIB_DIR)/libserver.a
 
@@ -23,3 +22,8 @@ $(OBJ_DIR)/%.o: %.cpp
 	mkdir -p $(dir $@)
 	$(CXX) -c $(CCFLAGS) $(DEP_INC) $< -o $@
 	@echo Compiling: $<
+
+.PRECIOUS: %.o
+
+
+

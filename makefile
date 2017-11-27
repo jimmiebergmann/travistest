@@ -1,6 +1,9 @@
 BIN_DIR 		:= bin
-OBJ_DIR 		:= bin
+LIB_DIR 		:= lib
+OBJ_DIR 		:= obj
 SERVER_HEADER_DIR	:= include/server
+
+all: server
 
 server: server_lib server_bin
 
@@ -19,4 +22,16 @@ obj/server.o:
 	@echo PARAM 2: $<
 	$(CXX) -c -fprofile-arcs -ftest-coverage -I$(SERVER_HEADER_DIR) source/Server.cpp -o obj/server.o
 
-#-I$(SERVER_INC_DIR)
+test: test_server
+
+test_server:
+	@cd test/server; make
+
+.PHONY: clean test
+
+clean:
+	$(RM) -rf $(OBJ_DIR)
+
+clean_all: clean
+	$(RM) -rf $(LIB_DIR)
+	$(RM) -rf $(BIN_DIR)
