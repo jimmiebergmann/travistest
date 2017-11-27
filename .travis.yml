@@ -13,9 +13,8 @@ before_install:
   - pip install --user cpp-coveralls
 
 script:
+  - cd test/server
   - make
-  - make test
-  - ./bin/server_tests
 
 after_success:
   - coveralls
