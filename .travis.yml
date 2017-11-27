@@ -1,4 +1,4 @@
-sudo: false
+sudo: require
 
 language: cpp
 compiler:
@@ -15,9 +15,13 @@ before_install:
 script:
   - cd test/server
   - make
+  - ./../../get_code_cov.sh
+  - cd ../..
+
 
 after_success:
-  - coveralls
+  - cd test/server
+  - bash <(curl -s https://codecov.io/bash)
 
 notifications:
   email: false
