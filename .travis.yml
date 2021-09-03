@@ -18,11 +18,11 @@ addons:
       - clang-11
       - lcov
       - valgrind
-      - mesa-utils
-      - xvfb
-      - libgl1-mesa-dri
-      - libglapi-mesa
-      - libosmesa6
+      #- mesa-utils
+      #- xvfb
+      #- libgl1-mesa-dri
+      #- libglapi-mesa
+      #- libosmesa6
       #- libxi-dev
     update: true
     
